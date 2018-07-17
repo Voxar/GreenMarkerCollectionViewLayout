@@ -15,7 +15,7 @@ class GreenThinkLayout: UICollectionViewFlowLayout {
     override func prepare() {
         super.prepare()
         
-        register(GreenTriangle.self, forDecorationViewOfKind: "green")
+        register(TriangleView.self, forDecorationViewOfKind: "green")
     }
     
     override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -37,7 +37,7 @@ class GreenThinkLayout: UICollectionViewFlowLayout {
             x: itemAttributes.center.x - 25/2,
             y: itemAttributes.frame.maxY,
             width: 25,
-            height: 25
+            height: 20
         )
     }
     
@@ -52,6 +52,33 @@ class GreenThinkLayout: UICollectionViewFlowLayout {
             return (superAttributes ?? []) + [greenAttributes]
         }
         return superAttributes
+    }
+    
+    class TriangleView: UICollectionReusableView {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            backgroundColor = .clear
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func draw(_ rect: CGRect) {
+            guard let context = UIGraphicsGetCurrentContext() else { return }
+            context.beginPath()
+            context.move(to: CGPoint(x: rect.midX, y: rect.minY))
+            context.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+            context.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+            context.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+            context.closePath()
+            context.setFillColor(UIColor.green.cgColor)
+            context.fillPath()
+        }
+        
+        override var intrinsicContentSize: CGSize {
+            return frame.size
+        }
     }
     
     class GreenTriangle: UICollectionReusableView {
