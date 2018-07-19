@@ -18,6 +18,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(TriangleView.self, forSupplementaryViewOfKind: "supplementary", withReuseIdentifier:"sup")
         collectionView.backgroundColor = UIColor.red
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -71,7 +72,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             collectionView.layoutSubviews()
         }
     }
-    
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == "supplementary" {
+            let vy = collectionView.dequeueReusableCell(withReuseIdentifier: "sup" , for: indexPath)
+            return vy
+        }
+        return UICollectionReusableView()
+    }
+
 
 }
 
